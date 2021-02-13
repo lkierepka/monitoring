@@ -1,0 +1,15 @@
+services:
+  sql_db:
+    image: mcr.microsoft.com/mssql/server
+  rabbit:
+    image: rabbitmq:management
+  service1:
+  service2:
+  gateway:
+  api1:
+  api2:
+  es:
+  kibana:
+  jaeger:
+  prometheus:
+  grafana:
