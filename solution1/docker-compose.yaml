@@ -1,15 +1,23 @@
 services:
-  sql_db:
-    image: mcr.microsoft.com/mssql/server
+  postgres:
+    image: postgres
   rabbit:
     image: rabbitmq:management
-  service1:
-  service2:
-  gateway:
+    ports:
+    - "15672:15672"
+  worker:
+    build:
+      context: .
+      dockerfile: WorkerService/Dockerfile
+  projection:
+    build:
+      context: .
+      dockerfile: ProjectionWorker/Dockerfile
   api1:
-  api2:
-  es:
-  kibana:
-  jaeger:
-  prometheus:
-  grafana:
+    build:
+      context: .
+      dockerfile: WebApi/Dockerfile
+    ports:
+    - "8080:80"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development

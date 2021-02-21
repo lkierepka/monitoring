@@ -1,9 +1,9 @@
 using MassTransit;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using WorkerService.Order;
+using ProjectionWorker.Order;
 
-namespace WorkerService
+namespace ProjectionWorker
 {
     public class Program
     {
@@ -12,13 +12,13 @@ namespace WorkerService
             CreateHostBuilder(args).Build().Run();
         }
 
-        private static IHostBuilder CreateHostBuilder(string[] args) =>
+        public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
-                .ConfigureServices((_, services) =>
+                .ConfigureServices((hostContext, services) =>
                 {
                     services.AddMassTransit(p =>
                     {
-                        p.AddConsumer<OrderAggregate>();
+                        p.AddConsumer<OrderConsumer>();
                         p.UsingRabbitMq((context, configurator) =>
                         {
                             configurator.Host("rabbit", hostConfigurator =>
