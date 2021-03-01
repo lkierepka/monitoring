@@ -1,6 +1,9 @@
+using System;
 using MassTransit;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using OpenTelemetry.Resources;
+using OpenTelemetry.Trace;
 using WorkerService.Order;
 
 namespace WorkerService
@@ -29,7 +32,15 @@ namespace WorkerService
                             configurator.ConfigureEndpoints(context);
                         });
                     });
+                    AppContext.SetSwitch("MassTransit.EnableActivityPropagation",true);
                     services.AddMassTransitHostedService();
+                    services.AddOpenTelemetryTracing(builder =>
+                        builder
+                            .AddSource("*")
+                            .SetResourceBuilder(ResourceBuilder.CreateDefault().AddService("workerservice"))
+                            .AddOtlpExporter(options => options.Endpoint = new Uri("http://collector:4317"))
+                            .AddConsoleExporter()
+                    );
                     // services.AddHostedService<Worker>();
                 });
     }
