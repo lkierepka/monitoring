@@ -5,7 +5,8 @@ COPY WorkerService.Contracts/*.csproj ./WorkerService.Contracts/
 WORKDIR /app/WebApi
 RUN dotnet restore
 
-COPY . /app/
+COPY ./WebApi /app/WebApi/
+COPY ./WorkerService.Contracts /app/WorkerService.Contracts/
 RUN dotnet publish -c Release -maxCpuCount -o /app/out
 
 FROM mcr.microsoft.com/dotnet/aspnet:5.0

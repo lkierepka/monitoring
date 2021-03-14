@@ -5,7 +5,8 @@ COPY WorkerService.Contracts/*.csproj ./WorkerService.Contracts/
 WORKDIR /app/ProjectionWorker
 RUN dotnet restore
 
-COPY . /app/
+COPY ./ProjectionWorker /app/ProjectionWorker/
+COPY ./WorkerService.Contracts /app/WorkerService.Contracts/
 RUN dotnet publish -c Release -maxCpuCount -o /app/out
 
 FROM mcr.microsoft.com/dotnet/runtime:5.0

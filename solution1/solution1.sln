@@ -13,6 +13,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectionWorker", "Project
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common.Masstransit", "Common.Masstransit\Common.Masstransit.csproj", "{4D8BF877-D9D7-48F4-878D-763AAB1E4BAE}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docker", "docker", "{FFB2ED6F-CB36-4328-B54C-7DB8636996CA}"
+ProjectSection(SolutionItems) = preProject
+	docker-compose.yaml = docker-compose.yaml
+	otel-collector-config.yaml = otel-collector-config.yaml
+	.dockerignore = .dockerignore
+	.env = .env
+EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
