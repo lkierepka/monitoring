@@ -44,9 +44,9 @@ namespace WebApi
             services.AddOpenTelemetryTracing(builder =>
                 builder
                     .SetResourceBuilder(ResourceBuilder.CreateDefault().AddService("api1"))
-                    .AddSource("MassTransit")
                     .AddAspNetCoreInstrumentation()
                     .AddOtlpExporter(options => options.Endpoint = new Uri("http://collector:4317"))
+                    .AddMassTransitInstrumentation()
                     .AddConsoleExporter()
                 );
         }

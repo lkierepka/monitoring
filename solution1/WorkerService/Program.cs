@@ -32,16 +32,14 @@ namespace WorkerService
                             configurator.ConfigureEndpoints(context);
                         });
                     });
-                    AppContext.SetSwitch("MassTransit.EnableActivityPropagation",true);
                     services.AddMassTransitHostedService();
                     services.AddOpenTelemetryTracing(builder =>
                         builder
-                            .AddSource("*")
                             .SetResourceBuilder(ResourceBuilder.CreateDefault().AddService("workerservice"))
                             .AddOtlpExporter(options => options.Endpoint = new Uri("http://collector:4317"))
+                            .AddMassTransitInstrumentation()
                             .AddConsoleExporter()
                     );
-                    // services.AddHostedService<Worker>();
                 });
     }
 }

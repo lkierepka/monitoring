@@ -11,8 +11,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorkerService.Contracts", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectionWorker", "ProjectionWorker\ProjectionWorker.csproj", "{FCBBEEF7-4911-4E16-8C48-81D0A70DA318}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common.Masstransit", "Common.Masstransit\Common.Masstransit.csproj", "{4D8BF877-D9D7-48F4-878D-763AAB1E4BAE}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docker", "docker", "{FFB2ED6F-CB36-4328-B54C-7DB8636996CA}"
 ProjectSection(SolutionItems) = preProject
 	docker-compose.yaml = docker-compose.yaml
@@ -20,6 +18,8 @@ ProjectSection(SolutionItems) = preProject
 	.dockerignore = .dockerignore
 	.env = .env
 EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenTelemetry.Contrib.Instrumentation.MassTransit", "external\opentelemetry-dotnet-contrib\src\OpenTelemetry.Contrib.Instrumentation.MassTransit\OpenTelemetry.Contrib.Instrumentation.MassTransit.csproj", "{E2FF2243-904A-451A-9397-55FD4405AE69}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -82,17 +82,17 @@ Global
 		{FCBBEEF7-4911-4E16-8C48-81D0A70DA318}.Release|x64.Build.0 = Release|Any CPU
 		{FCBBEEF7-4911-4E16-8C48-81D0A70DA318}.Release|x86.ActiveCfg = Release|Any CPU
 		{FCBBEEF7-4911-4E16-8C48-81D0A70DA318}.Release|x86.Build.0 = Release|Any CPU
-		{4D8BF877-D9D7-48F4-878D-763AAB1E4BAE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4D8BF877-D9D7-48F4-878D-763AAB1E4BAE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4D8BF877-D9D7-48F4-878D-763AAB1E4BAE}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{4D8BF877-D9D7-48F4-878D-763AAB1E4BAE}.Debug|x64.Build.0 = Debug|Any CPU
-		{4D8BF877-D9D7-48F4-878D-763AAB1E4BAE}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{4D8BF877-D9D7-48F4-878D-763AAB1E4BAE}.Debug|x86.Build.0 = Debug|Any CPU
-		{4D8BF877-D9D7-48F4-878D-763AAB1E4BAE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4D8BF877-D9D7-48F4-878D-763AAB1E4BAE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4D8BF877-D9D7-48F4-878D-763AAB1E4BAE}.Release|x64.ActiveCfg = Release|Any CPU
-		{4D8BF877-D9D7-48F4-878D-763AAB1E4BAE}.Release|x64.Build.0 = Release|Any CPU
-		{4D8BF877-D9D7-48F4-878D-763AAB1E4BAE}.Release|x86.ActiveCfg = Release|Any CPU
-		{4D8BF877-D9D7-48F4-878D-763AAB1E4BAE}.Release|x86.Build.0 = Release|Any CPU
+		{E2FF2243-904A-451A-9397-55FD4405AE69}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E2FF2243-904A-451A-9397-55FD4405AE69}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E2FF2243-904A-451A-9397-55FD4405AE69}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{E2FF2243-904A-451A-9397-55FD4405AE69}.Debug|x64.Build.0 = Debug|Any CPU
+		{E2FF2243-904A-451A-9397-55FD4405AE69}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{E2FF2243-904A-451A-9397-55FD4405AE69}.Debug|x86.Build.0 = Debug|Any CPU
+		{E2FF2243-904A-451A-9397-55FD4405AE69}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E2FF2243-904A-451A-9397-55FD4405AE69}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E2FF2243-904A-451A-9397-55FD4405AE69}.Release|x64.ActiveCfg = Release|Any CPU
+		{E2FF2243-904A-451A-9397-55FD4405AE69}.Release|x64.Build.0 = Release|Any CPU
+		{E2FF2243-904A-451A-9397-55FD4405AE69}.Release|x86.ActiveCfg = Release|Any CPU
+		{E2FF2243-904A-451A-9397-55FD4405AE69}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

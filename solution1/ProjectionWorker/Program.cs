@@ -1,6 +1,9 @@
+using System;
 using MassTransit;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using OpenTelemetry.Resources;
+using OpenTelemetry.Trace;
 using ProjectionWorker.Order;
 
 namespace ProjectionWorker
@@ -30,7 +33,11 @@ namespace ProjectionWorker
                         });
                     });
                     services.AddMassTransitHostedService();
-                    // services.AddHostedService<Worker>();
+                    services.AddOpenTelemetryTracing(builder =>
+                        builder
+                            .SetResourceBuilder(ResourceBuilder.CreateDefault().AddService("workerservice"))
+                            .AddOtlpExporter(options => options.Endpoint = new Uri("http://collector:4317"))
+                            .AddMassTransitInstrumentation());
                 });
     }
 }
