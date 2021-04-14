@@ -35,7 +35,7 @@ namespace ProjectionWorker
                     services.AddMassTransitHostedService();
                     services.AddOpenTelemetryTracing(builder =>
                         builder
-                            .SetResourceBuilder(ResourceBuilder.CreateDefault().AddService("workerservice"))
+                            .SetResourceBuilder(ResourceBuilder.CreateDefault().AddService("projection"))
                             .AddOtlpExporter(options => options.Endpoint = new Uri("http://collector:4317"))
                             .AddMassTransitInstrumentation());
                 });
