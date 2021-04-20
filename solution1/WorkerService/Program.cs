@@ -1,4 +1,5 @@
 using System;
+using Common;
 using MassTransit;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -40,6 +41,7 @@ namespace WorkerService
                             .AddMassTransitInstrumentation()
                             .AddConsoleExporter()
                     );
+                    services.AddSingleton<IIdGenerator, SequentialIdGenerator>();
                 });
     }
 }

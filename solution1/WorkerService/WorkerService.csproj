@@ -16,6 +16,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\Common\Common.csproj" />
       <ProjectReference Include="..\external\opentelemetry-dotnet-contrib\src\OpenTelemetry.Contrib.Instrumentation.MassTransit\OpenTelemetry.Contrib.Instrumentation.MassTransit.csproj" />
       <ProjectReference Include="..\WorkerService.Contracts\WorkerService.Contracts.csproj" />
     </ItemGroup>

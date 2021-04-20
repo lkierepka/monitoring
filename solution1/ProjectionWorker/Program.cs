@@ -1,10 +1,17 @@
 using System;
+using Common;
 using MassTransit;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization;
+using MongoDB.Bson.Serialization.Serializers;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
+using ProjectionWorker.Config;
 using ProjectionWorker.Order;
+using IIdGenerator = Common.IIdGenerator;
 
 namespace ProjectionWorker
 {
@@ -38,6 +45,12 @@ namespace ProjectionWorker
                             .SetResourceBuilder(ResourceBuilder.CreateDefault().AddService("projection"))
                             .AddOtlpExporter(options => options.Endpoint = new Uri("http://collector:4317"))
                             .AddMassTransitInstrumentation());
+                    services.Configure<MongoConfiguration>(hostContext.Configuration.GetSection("Mongo"));
+                    services.AddSingleton<IMongoConfiguration>(provider =>
+                        provider.GetRequiredService<IOptions<MongoConfiguration>>().Value);
+                    services.AddSingleton<IOrderRepository, OrderRepository>();
+                    services.AddSingleton<IIdGenerator, SequentialIdGenerator>();
+                    BsonSerializer.RegisterSerializer(new GuidSerializer(GuidRepresentation.Standard));
                 });
     }
 }

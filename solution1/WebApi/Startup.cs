@@ -1,17 +1,11 @@
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
+using Common;
 using MassTransit;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
@@ -49,6 +43,7 @@ namespace WebApi
                     .AddMassTransitInstrumentation()
                     .AddConsoleExporter()
                 );
+            services.AddSingleton<IIdGenerator, SequentialIdGenerator>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

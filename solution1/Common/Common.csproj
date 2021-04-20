@@ -2,7 +2,11 @@
 
     <PropertyGroup>
         <TargetFramework>net5.0</TargetFramework>
-        <LangVersion>latest</LangVersion>
+        <Nullable>enable</Nullable>
     </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="SequentialGuid" Version="2.5.0" />
+    </ItemGroup>
 
 </Project>

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using MassTransit;
 using Microsoft.Extensions.Logging;
@@ -16,8 +17,10 @@ namespace WorkerService.Order
 
         public async Task Consume(ConsumeContext<CreateOrder> context)
         {
+            using var scope = _logger.BeginScope(new Dictionary<string, object>
+                {["OrderId"] = context.Message.OrderId});
             _logger.LogInformation("Creating order");
-            await context.Publish(new OrderCreated());
+            await context.Publish(new OrderCreated(context.Message.OrderId));
             _logger.LogInformation("Order created");
         }
     }
