@@ -20,6 +20,10 @@ exporters:
     endpoint: jaeger:14250
     insecure: true
 
+  elastic:
+    apm_server_url: 'http://apm-server:8200'
+    insecure: true
+
 processors:
   batch:
 
@@ -36,8 +40,8 @@ service:
     traces:
       receivers: [otlp]
       processors: [batch]
-      exporters: [logging, zipkin, jaeger]
+      exporters: [logging, zipkin, jaeger, elastic]
     metrics:
       receivers: [otlp]
       processors: [batch]
-      exporters: [logging]
+      exporters: [logging, elastic]
