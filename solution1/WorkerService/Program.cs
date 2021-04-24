@@ -5,6 +5,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
+using Serilog;
+using Serilog.Sinks.Elasticsearch;
 using WorkerService.Order;
 
 namespace WorkerService
@@ -42,6 +44,19 @@ namespace WorkerService
                             .AddConsoleExporter()
                     );
                     services.AddSingleton<IIdGenerator, SequentialIdGenerator>();
-                });
+                })
+                .UseSerilog((context, configuration) =>
+                    configuration
+                        .MinimumLevel.Information()
+                        .WriteTo.Elasticsearch(
+                            new ElasticsearchSinkOptions(new Uri("http://elasticsearch:9200"))
+                            {
+                                AutoRegisterTemplate = true,
+                                AutoRegisterTemplateVersion = AutoRegisterTemplateVersion.ESv7,
+                                FailureCallback = e => Console.WriteLine("Unable to submit event " + e.MessageTemplate),
+                                EmitEventFailure = EmitEventFailureHandling.RaiseCallback,
+                                
+                            })
+                        .WriteTo.Console());
     }
 }

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using MassTransit;
 using Microsoft.Extensions.Logging;
@@ -18,6 +19,8 @@ namespace ProjectionWorker.Order
 
         public async Task Consume(ConsumeContext<OrderCreated> context)
         {
+            using var scope = _logger.BeginScope(new Dictionary<string, object>
+                {["OrderId"] = context.Message.OrderId});
             await _orderRepository.Insert(new Order(context.Message.OrderId));
             _logger.LogTrace("Order stored");
         }

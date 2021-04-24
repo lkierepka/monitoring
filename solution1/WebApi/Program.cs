@@ -1,7 +1,9 @@
+using System;
+using Common;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using OpenTelemetry.Logs;
+using Serilog;
+using Serilog.Sinks.Elasticsearch;
 
 namespace WebApi
 {
@@ -14,9 +16,15 @@ namespace WebApi
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
-                .ConfigureLogging(builder =>
-                    builder.AddOpenTelemetry(options =>
-                        options.AddConsoleExporter()))
+                .UseSerilog((context, configuration) =>
+                    configuration
+                        .MinimumLevel.Information()
+                        .WriteTo.Elasticsearch(new ElasticsearchSinkOptions(new Uri("http://elasticsearch:9200"))
+                        {
+                            AutoRegisterTemplate = true,
+                            AutoRegisterTemplateVersion = AutoRegisterTemplateVersion.ESv7
+                        })
+                        .WriteTo.Console())
                 .ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<Startup>(); });
     }
 }

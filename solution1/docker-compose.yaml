@@ -35,10 +35,18 @@ services:
     build:
       context: .
       dockerfile: WorkerService/Dockerfile
+    networks:
+      - default
+      - elastic
+      
   projection:
     build:
       context: .
       dockerfile: ProjectionWorker/Dockerfile
+    networks:
+      - default
+      - elastic
+        
   api1:
     build:
       context: .
@@ -47,6 +55,10 @@ services:
     - "8080:80"
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
+    networks:
+      - default
+      - elastic
+        
   collector:
     image: otel/opentelemetry-collector-contrib
     command: ["--config=/etc/otel-collector-config.yaml", "${OTELCOL_ARGS}"]
