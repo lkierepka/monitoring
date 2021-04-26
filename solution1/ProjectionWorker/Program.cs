@@ -7,6 +7,8 @@ using Microsoft.Extensions.Options;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Serializers;
+using MongoDB.Driver;
+using MongoDB.Driver.Core.Extensions.DiagnosticSources;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
 using ProjectionWorker.Config;
@@ -46,12 +48,23 @@ namespace ProjectionWorker
                         builder
                             .SetResourceBuilder(ResourceBuilder.CreateDefault().AddService("projection"))
                             .AddOtlpExporter(options => options.Endpoint = new Uri("http://collector:4317"))
-                            .AddMassTransitInstrumentation());
+                            .AddMongoDBInstrumentation()
+                            .AddMassTransitInstrumentation()
+                            .AddConsoleExporter());
                     services.Configure<MongoConfiguration>(hostContext.Configuration.GetSection("Mongo"));
                     services.AddSingleton<IMongoConfiguration>(provider =>
                         provider.GetRequiredService<IOptions<MongoConfiguration>>().Value);
                     services.AddSingleton<IOrderRepository, OrderRepository>();
                     services.AddSingleton<IIdGenerator, SequentialIdGenerator>();
+                    services.AddSingleton<IMongoClient>(provider =>
+                    {
+                        var mongoUrl = provider.GetRequiredService<IOptions<MongoConfiguration>>().Value
+                            .ConnectionString;
+                        var clientSettings = MongoClientSettings.FromUrl(new MongoUrl(mongoUrl));
+                        clientSettings.ClusterConfigurator =
+                            cb => cb.Subscribe(new DiagnosticsActivityEventSubscriber());
+                        return new MongoClient(clientSettings);
+                    });
                     BsonSerializer.RegisterSerializer(new GuidSerializer(GuidRepresentation.Standard));
                 })
                 .UseSerilog((context, configuration) =>

@@ -10,8 +10,14 @@ services:
     image: openzipkin/zipkin:latest
     ports:
       - "9411:9411"
+        
   postgres:
     image: postgres
+    environment:
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5432:5432"
+
   mongo:
     image: mongo
     restart: always
@@ -30,15 +36,17 @@ services:
   rabbit:
     image: rabbitmq:management
     ports:
-    - "15672:15672"
+      - "15672:15672"
   worker:
     build:
       context: .
       dockerfile: WorkerService/Dockerfile
+    environment:
+      Postgres__ConnectionString: "Host=postgres;Database=worker_db;Username=postgres;Password=password"
     networks:
       - default
       - elastic
-      
+
   projection:
     build:
       context: .
@@ -46,22 +54,22 @@ services:
     networks:
       - default
       - elastic
-        
+
   api1:
     build:
       context: .
       dockerfile: WebApi/Dockerfile
     ports:
-    - "8080:80"
+      - "8080:80"
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
     networks:
       - default
       - elastic
-        
+
   collector:
     image: otel/opentelemetry-collector-contrib
-    command: ["--config=/etc/otel-collector-config.yaml", "${OTELCOL_ARGS}"]
+    command: [ "--config=/etc/otel-collector-config.yaml", "${OTELCOL_ARGS}" ]
     volumes:
       - ./otel-collector-config.yaml:/etc/otel-collector-config.yaml
     ports:
@@ -71,7 +79,7 @@ services:
     networks:
       - default
       - elastic
-        
+
   apm-server:
     image: docker.elastic.co/apm/apm-server:7.12.0
     depends_on:
@@ -79,8 +87,8 @@ services:
         condition: service_healthy
       kibana:
         condition: service_healthy
-    cap_add: ["CHOWN", "DAC_OVERRIDE", "SETGID", "SETUID"]
-    cap_drop: ["ALL"]
+    cap_add: [ "CHOWN", "DAC_OVERRIDE", "SETGID", "SETUID" ]
+    cap_drop: [ "ALL" ]
     ports:
       - 8200:8200
     networks:

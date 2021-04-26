@@ -23,6 +23,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenTelemetry.Contrib.Instr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "Common\Common.csproj", "{C1944F87-3F32-4AB9-8B19-82BECF8D697D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenTelemetry.Contrib.Instrumentation.EntityFrameworkCore", "external\opentelemetry-dotnet-contrib\src\OpenTelemetry.Contrib.Instrumentation.EntityFrameworkCore\OpenTelemetry.Contrib.Instrumentation.EntityFrameworkCore.csproj", "{5E8ECE42-42ED-471D-8414-3A523EED0F0B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -108,5 +110,17 @@ Global
 		{C1944F87-3F32-4AB9-8B19-82BECF8D697D}.Release|x64.Build.0 = Release|Any CPU
 		{C1944F87-3F32-4AB9-8B19-82BECF8D697D}.Release|x86.ActiveCfg = Release|Any CPU
 		{C1944F87-3F32-4AB9-8B19-82BECF8D697D}.Release|x86.Build.0 = Release|Any CPU
+		{5E8ECE42-42ED-471D-8414-3A523EED0F0B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5E8ECE42-42ED-471D-8414-3A523EED0F0B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5E8ECE42-42ED-471D-8414-3A523EED0F0B}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{5E8ECE42-42ED-471D-8414-3A523EED0F0B}.Debug|x64.Build.0 = Debug|Any CPU
+		{5E8ECE42-42ED-471D-8414-3A523EED0F0B}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{5E8ECE42-42ED-471D-8414-3A523EED0F0B}.Debug|x86.Build.0 = Debug|Any CPU
+		{5E8ECE42-42ED-471D-8414-3A523EED0F0B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5E8ECE42-42ED-471D-8414-3A523EED0F0B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5E8ECE42-42ED-471D-8414-3A523EED0F0B}.Release|x64.ActiveCfg = Release|Any CPU
+		{5E8ECE42-42ED-471D-8414-3A523EED0F0B}.Release|x64.Build.0 = Release|Any CPU
+		{5E8ECE42-42ED-471D-8414-3A523EED0F0B}.Release|x86.ActiveCfg = Release|Any CPU
+		{5E8ECE42-42ED-471D-8414-3A523EED0F0B}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

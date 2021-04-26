@@ -13,9 +13,8 @@ namespace ProjectionWorker.Order
     {
         private readonly IMongoCollection<Order> _collection;
 
-        public OrderRepository(IMongoConfiguration mongoConfiguration)
+        public OrderRepository(IMongoConfiguration mongoConfiguration, IMongoClient client)
         {
-            var client = new MongoClient(mongoConfiguration.ConnectionString);
             var database = client.GetDatabase(mongoConfiguration.Database);
             _collection = database.GetCollection<Order>(mongoConfiguration.OrderCollection);
         }

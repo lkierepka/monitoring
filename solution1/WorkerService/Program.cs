@@ -1,8 +1,10 @@
 using System;
 using Common;
 using MassTransit;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
 using Serilog;
@@ -15,13 +17,24 @@ namespace WorkerService
     {
         public static void Main(string[] args)
         {
-            CreateHostBuilder(args).Build().Run();
+            var host = CreateHostBuilder(args).Build();
+            using (var scope = host.Services.CreateScope())
+            {
+                var db = scope.ServiceProvider.GetRequiredService<WorkerDbContext>();
+                db.Database.Migrate();
+            }
+
+            host.Run();
         }
 
         private static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
-                .ConfigureServices((_, services) =>
+                .ConfigureServices((context, services) =>
                 {
+                    services.Configure<PostgresConfiguration>(context.Configuration.GetSection("Postgres"));
+                    services.AddDbContext<WorkerDbContext>((provider, builder) =>
+                        builder.UseNpgsql(
+                            provider.GetRequiredService<IOptions<PostgresConfiguration>>().Value.ConnectionString));
                     services.AddMassTransit(p =>
                     {
                         p.AddConsumer<OrderAggregate>();
@@ -41,6 +54,7 @@ namespace WorkerService
                             .SetResourceBuilder(ResourceBuilder.CreateDefault().AddService("workerservice"))
                             .AddOtlpExporter(options => options.Endpoint = new Uri("http://collector:4317"))
                             .AddMassTransitInstrumentation()
+                            .AddEntityFrameworkCoreInstrumentation()
                             .AddConsoleExporter()
                     );
                     services.AddSingleton<IIdGenerator, SequentialIdGenerator>();
@@ -55,7 +69,6 @@ namespace WorkerService
                                 AutoRegisterTemplateVersion = AutoRegisterTemplateVersion.ESv7,
                                 FailureCallback = e => Console.WriteLine("Unable to submit event " + e.MessageTemplate),
                                 EmitEventFailure = EmitEventFailureHandling.RaiseCallback,
-                                
                             })
                         .WriteTo.Console());
     }
