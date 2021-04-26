@@ -19,6 +19,7 @@ namespace WebApi
                 .UseSerilog((context, configuration) =>
                     configuration
                         .MinimumLevel.Information()
+                        .Enrich.With<ElasticsearchEnricher>()
                         .WriteTo.Elasticsearch(new ElasticsearchSinkOptions(new Uri("http://elasticsearch:9200"))
                         {
                             AutoRegisterTemplate = true,

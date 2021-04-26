@@ -9,7 +9,7 @@ namespace Common
         public void Enrich(LogEvent logEvent, ILogEventPropertyFactory propertyFactory)
         {
             if (Activity.Current != null)
-                logEvent.AddPropertyIfAbsent(propertyFactory.CreateProperty("trace.id", Activity.Current.TraceId));
+                logEvent.AddPropertyIfAbsent(propertyFactory.CreateProperty("ElasticApmTraceId", Activity.Current.TraceId));
         }
     }
 }
