@@ -6,6 +6,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <PackageReference Include="OpenTelemetry.Contrib.Instrumentation.MassTransit" Version="1.0.0-beta1" />
       <PackageReference Include="SequentialGuid" Version="2.5.0" />
       <PackageReference Include="Serilog.Extensions.Hosting" Version="4.1.2" />
       <PackageReference Include="Serilog.Sinks.Console" Version="3.1.1" />

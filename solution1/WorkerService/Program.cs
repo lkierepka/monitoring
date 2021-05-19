@@ -54,7 +54,8 @@ namespace WorkerService
                             .SetResourceBuilder(ResourceBuilder.CreateDefault().AddService("workerservice"))
                             .AddOtlpExporter(options => options.Endpoint = new Uri("http://collector:4317"))
                             .AddMassTransitInstrumentation()
-                            .AddEntityFrameworkCoreInstrumentation(options => options.SetDbStatementForText = true)
+                            // TODO uncomment if new version will be released
+                            // .AddEntityFrameworkCoreInstrumentation(options => options.SetDbStatementForText = true)
                             .AddConsoleExporter()
                     );
                     services.AddSingleton<IIdGenerator, SequentialIdGenerator>();

@@ -1,13 +1,11 @@
 FROM mcr.microsoft.com/dotnet/sdk:5.0 as build
 WORKDIR /app
-COPY ./external/opentelemetry-dotnet-contrib/src/OpenTelemetry.Contrib.Instrumentation.MassTransit/*.csproj /app/external/opentelemetry-dotnet-contrib/src/OpenTelemetry.Contrib.Instrumentation.MassTransit/
 COPY WorkerService.Contracts/*.csproj ./WorkerService.Contracts/
 COPY Common/*.csproj ./Common/
 COPY WebApi/*.csproj ./WebApi/
 WORKDIR /app/WebApi
 RUN dotnet restore
 
-COPY ./external /app/external/
 COPY ./WorkerService.Contracts /app/WorkerService.Contracts/
 COPY ./Common /app/Common/
 COPY ./WebApi /app/WebApi/
