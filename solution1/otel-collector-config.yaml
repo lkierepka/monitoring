@@ -24,6 +24,10 @@ exporters:
     apm_server_url: 'http://apm-server:8200'
     insecure: true
 
+  otlp:
+    endpoint: 'tempo:4317'
+    insecure: true
+
 processors:
   batch:
 
@@ -40,7 +44,7 @@ service:
     traces:
       receivers: [otlp]
       processors: [batch]
-      exporters: [logging, zipkin, jaeger, elastic]
+      exporters: [logging, zipkin, jaeger, elastic, otlp]
     metrics:
       receivers: [otlp]
       processors: [batch]

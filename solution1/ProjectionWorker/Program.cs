@@ -15,6 +15,7 @@ using ProjectionWorker.Config;
 using ProjectionWorker.Order;
 using Serilog;
 using Serilog.Sinks.Elasticsearch;
+using Serilog.Sinks.Grafana.Loki;
 using IIdGenerator = Common.IIdGenerator;
 
 namespace ProjectionWorker
@@ -78,6 +79,7 @@ namespace ProjectionWorker
                                 AutoRegisterTemplateVersion = AutoRegisterTemplateVersion.ESv7,
                                 FailureCallback = e => Console.WriteLine("Unable to submit event " + e.MessageTemplate)
                             })
+                        .WriteTo.GrafanaLoki("http://loki:3100")
                         .WriteTo.Console());
     }
 }

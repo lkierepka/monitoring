@@ -9,6 +9,7 @@ using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
 using Serilog;
 using Serilog.Sinks.Elasticsearch;
+using Serilog.Sinks.Grafana.Loki;
 using WorkerService.Order;
 
 namespace WorkerService
@@ -72,6 +73,7 @@ namespace WorkerService
                                 FailureCallback = e => Console.WriteLine("Unable to submit event " + e.MessageTemplate),
                                 EmitEventFailure = EmitEventFailureHandling.RaiseCallback,
                             })
+                        .WriteTo.GrafanaLoki("http://loki:3100")
                         .WriteTo.Console());
     }
 }

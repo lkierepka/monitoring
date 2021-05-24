@@ -46,6 +46,7 @@ services:
     networks:
       - default
       - elastic
+      - loki
 
   projection:
     build:
@@ -54,6 +55,7 @@ services:
     networks:
       - default
       - elastic
+      - loki
 
   api1:
     build:
@@ -66,6 +68,7 @@ services:
     networks:
       - default
       - elastic
+      - loki
 
   collector:
     image: otel/opentelemetry-collector-contrib
@@ -79,6 +82,7 @@ services:
     networks:
       - default
       - elastic
+      - grafana
 
   apm-server:
     image: docker.elastic.co/apm/apm-server:7.12.0
@@ -145,6 +149,47 @@ services:
       interval: 10s
       retries: 20
       test: curl --write-out 'HTTP %{http_code}' --fail --silent --output /dev/null http://localhost:5601/api/status
+  
+  tempo:
+    image: grafana/tempo:latest
+    ports:
+    - "4317:4317"
+    networks:
+      - grafana
+    volumes:
+    - ./config/tempo-local.yaml:/etc/tempo-local.yaml
+    command: -config.file=/etc/tempo-local.yaml
+
+#  prometheus:
+#    image: prom/prometheus
+#    ports:
+#      - "9090:9090"
+#    networks:
+#      - grafana
+#    volumes:
+#    - ./config/prometheus.yml:/etc/prometheus/prometheus.yml
+#  
+  loki:
+    image: grafana/loki:2.2.1
+    ports:
+      - "3100:3100"
+    command: -config.file=/etc/loki/local-config.yaml
+    networks:
+      - grafana
+      - loki
+    volumes:
+      - ./config/loki-config.yaml:/etc/loki/local-config.yaml
+
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+      - "3000:3000"
+    networks:
+      - grafana
+    environment:
+      - GF_AUTH_ANONYMOUS_ENABLED=true
+      - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
+      - GF_AUTH_DISABLE_LOGIN_FORM=true
 
 volumes:
   esdata:
@@ -153,3 +198,5 @@ volumes:
 networks:
   elastic:
     driver: bridge
+  grafana:
+  loki:
